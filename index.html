@@ -4,24 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
     <title>Weather App</title>
 </head>
 <body>
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <div id="search-box">
-        <form id="search-info">
-            <p>Enter name of city</p>
-            <input id="input-el"/>
-            <button id="submit-btn">Enter</button> 
-        </form>
-    </div>
 
-    <div id="current-weather">
-
-    </div>
-
+    <div class="flex-container">
+        <aside id="search-box">
+            <form id="search-info">
+                <p>Enter name of city</p>
+                <input id="input-el" />
+                <button id="submit-btn">Enter</button>
+            </form>
+            <h2> Search History </h2>
+            <div id="recent-searches">
+            </div>
+            
+        </aside>
+    
+        <main>
+            <section class='flex-container'>
+                <div id="current-weather"></div>
+                <div id="forecasted-weather"></div>
+            </section>
+        </main>
+    
     <script src="script.js"></script>
 </body>
 </html>

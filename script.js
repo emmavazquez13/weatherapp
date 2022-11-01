@@ -92,28 +92,35 @@ function renderWeather(info){
     currentWeather.innerHTML = ""
     // Grabs the city name of of the API response and saves to global scope
     console.log(info)
+    console.log(info.weather[0].icon)
     city = info.name
-    console.log(city)
     saveCity()
     // Varibales for weather conditions 
     // Uses the new date constructer to convert into a readable date 
     // https://www.coderrocketfuel.com/article/convert-a-unix-timestamp-to-a-date-in-vanilla-javascript
     var date = new Date(info.dt * 1000)
     console.log(date)
-    var icon 
-    var temp // convert K into F 
-    var wind
+    var icon = info.weather[0].icon
+    var temp = info.main.temp // convert K into F (0K − 273.15) × 9/5 + 32 = -459.7°F
+    temp = Math.round((temp - 273.15) * 9/5 + 32)
+    console.log(temp)
+    var wind 
     var hum 
 
 
     // create element for each of the weather info variable 
     var headingEl = document.createElement("h2")
     headingEl.innerText = `${city}, ${date}`
-    console.log(headingEl);
+    var tempEl = document.createElement("p")
+    tempEl.innerText = `${temp}°`
+    var iconEl = document.createElement("img")
+    iconEl.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`)
+    console.log(iconEl)
+
     // append weather info to the DOM 
     currentWeather.append(headingEl)
-
-
+    currentWeather.append(tempEl)
+    currentWeather.append(iconEl)
 }
 
 // This function renders the future weather conditions 
