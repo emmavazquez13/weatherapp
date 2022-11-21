@@ -63,7 +63,6 @@ function getWeather(cityInformation) {
 function saveCity(){
     console.log(city)
     console.log(searchHistory)
-
     //If statement to check if the city is already in the search history array 
     if (searchHistory.includes(city)){
         console.log(`The search history array already includes ${city}`)
@@ -74,6 +73,7 @@ function saveCity(){
     }
     
 }
+
 // This function gets history from local storage 
 function getHistory(){
     // check local storage to see if search history 
@@ -83,7 +83,7 @@ function getHistory(){
         console.log(searchHistory)
     } else {
         console.log("There is nothing in local storage");
-    } 
+    }
 }
 
 // This function renders the weaether conditions 
@@ -98,35 +98,74 @@ function renderWeather(info){
     // Varibales for weather conditions 
     // Uses the new date constructer to convert into a readable date 
     // https://www.coderrocketfuel.com/article/convert-a-unix-timestamp-to-a-date-in-vanilla-javascript
-    var date = new Date(info.dt * 1000)
+   var date = new Date(info.dt * 1000)
     console.log(date)
     var icon = info.weather[0].icon
     var temp = info.main.temp // convert K into F (0K − 273.15) × 9/5 + 32 = -459.7°F
     temp = Math.round((temp - 273.15) * 9/5 + 32)
-    console.log(temp)
-    var wind 
-    var hum 
+   // console.log(temp)
+    var wind = info.wind.speed
+   // console.log(wind)
+    var hum = info.main.humidity 
+    //console.log(hum)
 
 
     // create element for each of the weather info variable 
     var headingEl = document.createElement("h2")
     headingEl.innerText = `${city}, ${date}`
     var tempEl = document.createElement("p")
-    tempEl.innerText = `${temp}°`
+    tempEl.innerText = ` Temp: ${temp}°` + 'F'
     var iconEl = document.createElement("img")
     iconEl.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`)
-    console.log(iconEl)
+    var windEl = document.createElement("p")
+    windEl.innerText = ` Wind speed: ${wind}` + ' MPH'
+    var humEl = document.createElement("p")
+    humEl.innerText = ` Humidity: ${hum}`
 
     // append weather info to the DOM 
     currentWeather.append(headingEl)
     currentWeather.append(tempEl)
     currentWeather.append(iconEl)
+    currentWeather.append(windEl)
+    currentWeather.append(humEl)
+
+    currentWeather.style.border = "5px solid black";
+    currentWeather.style.margin = "10px"
 }
 
 // This function renders the future weather conditions 
 function renderForecast(info){
+    document.getElementById("forecasted-weather").innerHTML = ""
     console.log(info)
+   let Data = info.list
+   let cityName = info.city.name
+   let forecastDiv = document.createElement("div")
+   forecastDiv.style.display = "flex"
+   for (let i=0; i< Data.length; i+=8) {
+   let parentDiv = document.createElement("div") 
+   parentDiv.style.border = "5px solid black";
+   parentDiv.style.margin = "10px"
+
+   let city_para = document.createElement("p")
+        city_para.innerHTML = cityName 
+    let iconEl = document.createElement("img")
+         iconEl.setAttribute("src", `http://openweathermap.org/img/wn/${Data[i].weather[0].icon}@2x.png`)
+   let date_para = document.createElement("p") 
+        date_para.innerHTML = `Date: ${Data[i].dt_txt.split(" ")[0]}`
+   let temp_para = document.createElement("p")
+        temp_para.innerHTML = `Temp: ${Data[i].main.temp}`
+   let wind_para = document.createElement("p")
+        wind_para.innerHTML = `Wind: ${Data[i].wind.speed}`
+   let humidity_para = document.createElement("p")
+        humidity_para.innerHTML = `Humidity: ${Data[i].main.humidity}`
+
+        parentDiv.append(city_para, iconEl, date_para, temp_para, wind_para, humidity_para)
+        forecastDiv.append(parentDiv)
+   } 
+
+   document.getElementById("forecasted-weather").append(forecastDiv)
 }
+
 //Listen for clicks 
 submitBtn.addEventListener("click", grabInput)
 
