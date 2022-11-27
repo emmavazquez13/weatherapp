@@ -72,6 +72,7 @@ function saveCity(){
         localStorage.setItem('city array', JSON.stringify(searchHistory))
     }
     
+    
 }
 
 // This function gets history from local storage 
